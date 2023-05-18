@@ -20,13 +20,28 @@ PRT(PeerReviewTemplate)
 #위 항목에 대한 근거 작성 필수
 - [X] 코드가 에러를 유발할 가능성이 있나요?
 #위 항목에 대한 근거 작성 필수
-- [ ] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
+- [X] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
 #위 항목에 대한 근거 작성 필수
-- [ ] 코드가 간결한가요?
+- [X] 코드가 간결한가요?
 #위 항목에 대한 근거 작성 필수
 
 ----------------------------------------------
 
 참고 링크 및 코드 개선
-- 코드 리뷰 시 참고한 링크가 있다면 링크와 간략한 설명을 첨부합니다.
-- 코드 리뷰를 통해 개선한 코드가 있다면 코드와 간략한 설명을 첨부합니다.
+- 프로젝트1 9번 step에서, "for i in range(1, 30001):"에서 iteration 횟수가 좀 많은 것처럼 느껴집니다.
+```
+losses = []
+
+for i in range(1, 30001):
+    dw, db = gradient(X_train, W, b, y_train)   
+    W -= LEARNING_RATE * dw         
+    b -= LEARNING_RATE * db         
+    L = loss(df_x, W, b, df_y)            
+    losses.append(L)                
+    if i % 1000 == 0:
+        print('Iteration %d : Loss %0.4f' % (i, L))
+```
+- LEARNING_RATE = 0.001 셋팅과 3만번의 iter로 loss가 2900까지 떨어졌는데, 제가 LR을 0.5로 iter를 1000번 했을 때 비슷한 손실함수 최적화와 더 낮은 MSE가 나왔습니다. 너무 낮은 LR은 컴퓨팅 리소스를 많이 잡아먹고 또 너무 높은 LR 설정을 dL/dw 미분 최적화 과정에서 local minimum에 수렴하지 못하고 건너뛰어서 무한루프에 빠지는 결과가 나올 수 있다고 합니다.
+
+- 프로젝트2 6번 step에서 계산된 RMSE 값(8.200676982031253e-13)이 너무 낮습니다. 또한 후속 step의 plot된 그래프에서 데이터 분포가 비이상적이라는 사실을 감안할 때, 데이터 처리 과정에서 문제가 있는 것으로 추정됩니다.
+- sklearn.model_selection.train_test_split()의 test_size: float or int, default=None이 빠져있습니다. default값인 none으로 되면 어떤 문제가 발생할지 확인이 필요할 것 같습니다.
