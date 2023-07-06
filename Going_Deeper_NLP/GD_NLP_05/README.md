@@ -9,18 +9,44 @@
 ----------------------------------------------
 
 - 코더 : 김경훈
-- 리뷰어 : 
+- 리뷰어 : 소용현
 
 ----------------------------------------------
 
 PRT(PeerReviewTemplate)
 
-- [x] 코드가 정상적으로 동작하고 주어진 문제를 해결했나요?
-- [x] 주석을 보고 작성자의 코드가 이해되었나요?
-- [x] 코드가 에러를 유발할 가능성이 있나요?
-- [x] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
-- [x] 코드가 간결한가요?
+- [o] 코드가 정상적으로 동작하고 주어진 문제를 해결했나요?
+![image](https://github.com/KurtKim/aiffel/assets/100551891/b7450307-efcb-45d0-bf3c-8438efc73b77)
 
+하이퍼 파라미터를 변경해서 학습시키고, 결과를 비교해 보았다.
+
+![image](https://github.com/KurtKim/aiffel/assets/100551891/6ec6f787-7fc2-487e-b583-c6f2f74d2a03)
+
+적절한 시각화가 이루어졌다.
+
+- [o] 주석을 보고 작성자의 코드가 이해되었나요?
+![image](https://github.com/KurtKim/aiffel/assets/100551891/b4983e20-7613-4c7d-b307-7223f073f15b)
+
+별도의 설명을 통해 이해하기 쉽게 되어 있다.
+
+- [x] 코드가 에러를 유발할 가능성이 있나요?
+```
+class Translator():
+    def __init__(self, src_tokenizer, tgt_tokenizer, 
+                 n_layers=6, d_model=512, n_heads=8, d_ff=2048, pos_len=200, dropout=0.2, shared=True,
+                 batch_size=64, epochs=20):
+```
+pos_len=200 이부분을 최대 seq로 맞춰주면 좋지 않을까요?
+
+- [o] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
+인터뷰 결과 제대로 이해하고 작성하였다.
+- [o] 코드가 간결한가요?
+
+```
+model_try_1 = Translator(ko_tokenizer, en_tokenizer, n_layers=2, d_model=512, batch_size=64, epochs=20)
+model_try_1.train(enc_train, dec_train)
+```
+별도의 클래스 선언으로 간결한 코드로 테스트 가능하도록 되어 있다.
 ----------------------------------------------
 
 참고 링크 및 코드 개선
