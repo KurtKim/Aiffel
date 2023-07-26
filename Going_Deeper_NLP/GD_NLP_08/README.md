@@ -9,21 +9,58 @@
 ----------------------------------------------
 
 - 코더 : 김경훈
-- 리뷰어 : 
+- 리뷰어 : 소용현
 
 ----------------------------------------------
 
 PRT(PeerReviewTemplate)
 
-- [x] 코드가 정상적으로 동작하고 주어진 문제를 해결했나요?
-
+- [o] 코드가 정상적으로 동작하고 주어진 문제를 해결했나요?
+![image](https://github.com/KurtKim/aiffel/assets/100551891/b54f0a6d-a5ca-4065-ad94-23f9ffa9bccb)
+90%이상 정확도 달성하였습니다.
 - [x] 주석을 보고 작성자의 코드가 이해되었나요?
-
+주석이 없습니다 ㅠㅠ
 - [x] 코드가 에러를 유발할 가능성이 있나요?
-
-- [x] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
-
-- [x] 코드가 간결한가요?
-
+없습니다.
+- [o] 코드 작성자가 코드를 제대로 이해하고 작성했나요? (직접 인터뷰해보기)
+네 이해하고 작성하였습니다.
+- [o] 코드가 간결한가요?
+```
+class Classifier():
+    def __init__(self, model_name, dataset, training_arguments):
+        super(Classifier, self).__init__()
+        
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
+        
+        self.dataset = dataset
+        self.trainer = self._set(training_arguments)
+    
+    
+    def compute_metrics(self, pred):
+        labels = pred.label_ids
+        preds = pred.predictions.argmax(-1)
+        return { 'accuracy': accuracy_score(labels, preds) }
+    
+    
+    def _set(self, training_arguments):
+        return Trainer(
+            model=self.model,           
+            args=training_arguments,           
+            train_dataset=self.dataset.train,
+            eval_dataset=self.dataset.valid,       
+            compute_metrics=self.compute_metrics,
+            data_collator=DataCollatorWithPadding(tokenizer=self.tokenizer)
+        )
+    
+    
+    def fine_tuning(self):
+        return self.trainer.train()
+        
+    
+    def evalutate(self):
+        return self.trainer.evaluate(self.dataset.test)
+```
+학습에 필요한 클래스를 정의하여 코드의 중복을 줄였습니다.
 
 참고 링크 및 코드 개선
